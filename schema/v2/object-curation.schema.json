@@ -1,0 +1,286 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/theatrus/seiza-catalog-curation/schema/v2/object-curation.schema.json",
+  "title": "Seiza per-object curation document",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "id", "target_id"],
+  "properties": {
+    "schema_version": {
+      "const": 2
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$"
+    },
+    "target_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "notes": {
+      "type": "string"
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/evidence"
+      }
+    },
+    "geometries": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/geometry"
+      }
+    },
+    "outlines": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/outline"
+      }
+    },
+    "relations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/relation"
+      }
+    },
+    "selections": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/selection"
+      }
+    }
+  },
+  "$defs": {
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "type": "string"
+        },
+        "citation": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "anyOf": [
+        {
+          "required": ["kind"],
+          "properties": {
+            "kind": {
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "required": ["citation"],
+          "properties": {
+            "citation": {
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "required": ["url"],
+          "properties": {
+            "url": {
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "required": ["notes"],
+          "properties": {
+            "notes": {
+              "minLength": 1
+            }
+          }
+        }
+      ]
+    },
+    "geometry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type",
+        "center_ra_deg",
+        "center_dec_deg",
+        "major_arcmin"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "const": "ellipse"
+        },
+        "center_ra_deg": {
+          "type": "number",
+          "minimum": 0,
+          "exclusiveMaximum": 360
+        },
+        "center_dec_deg": {
+          "type": "number",
+          "minimum": -90,
+          "maximum": 90
+        },
+        "major_arcmin": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "minor_arcmin": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "position_angle_deg": {
+          "type": "number",
+          "minimum": 0,
+          "exclusiveMaximum": 180
+        },
+        "role": {
+          "$ref": "#/$defs/geometry_role"
+        },
+        "quality": {
+          "$ref": "#/$defs/geometry_quality"
+        },
+        "method": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "preferred": {
+          "type": "boolean"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        }
+      }
+    },
+    "outline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["file"],
+      "properties": {
+        "file": {
+          "type": "string",
+          "pattern": "^[^/\\\\]+\\.txt$"
+        },
+        "source_record_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "role": {
+          "$ref": "#/$defs/geometry_role"
+        },
+        "quality": {
+          "$ref": "#/$defs/geometry_quality"
+        },
+        "method": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "preferred": {
+          "type": "boolean"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        }
+      }
+    },
+    "relation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "related_id"],
+      "properties": {
+        "kind": {
+          "enum": [
+            "same-as",
+            "component-of",
+            "parent-of",
+            "duplicate-of",
+            "catalog-alias"
+          ]
+        },
+        "related_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_record_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "notes": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        }
+      }
+    },
+    "selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["facet"],
+      "properties": {
+        "facet": {
+          "enum": [
+            "preferred-identity",
+            "preferred-position",
+            "preferred-geometry",
+            "preferred-photometry",
+            "preferred-classification"
+          ]
+        },
+        "source_record_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "geometry_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "notes": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        }
+      }
+    },
+    "geometry_role": {
+      "enum": [
+        "catalog-extent",
+        "preferred-render",
+        "fallback-extent",
+        "brightness-level",
+        "component"
+      ]
+    },
+    "geometry_quality": {
+      "enum": ["catalog", "curated", "estimated", "derived"]
+    }
+  }
+}

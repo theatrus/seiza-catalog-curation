@@ -1,0 +1,6 @@
+[[rule]]
+include = ["objects/**/*.toml"]
+
+[rule.schema]
+path = "schema/v2/object-curation.schema.json"
+enabled = true

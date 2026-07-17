@@ -1,0 +1,48 @@
+schema_version = 2
+id = "lbn-437"
+target_id = "vizier:VII/9:LBN437"
+notes = """
+VizieR VII/9 supplies the LBN 437 center and a 75 by 20 arcminute extent, but
+the table has no position-angle column. The catalog measurement must remain
+unoriented.
+
+The visible long feature is east-west, so the practical fallback ellipse uses
+90 degrees east of north. This is an estimated rendering and indexing
+geometry, not a recovered VII/9 measurement. It describes the broad LBN
+extent, not the much smaller irregular molecular head.
+"""
+
+[[evidence]]
+kind = "catalog"
+citation = "VizieR VII/9"
+url = "https://vizier.cds.unistra.fr/viz-bin/VizieR?-source=VII%2F9"
+notes = "The source table contains maximum and minimum dimensions but no position-angle column."
+
+[[evidence]]
+kind = "image-review"
+notes = """
+Two independent images were solved with Seiza and reviewed against the object.
+Image 1: center 338.67785, +40.60204; 1.8834 arcsec/pixel; rotation -10.49
+degrees; 11 matches; 5.501 arcsec RMS. Image 2: center 338.13194, +40.76242;
+4.1870 arcsec/pixel; rotation -0.64 degrees; 17 matches; 1.427 arcsec RMS.
+"""
+
+[[evidence]]
+kind = "literature"
+citation = "Soam et al. on LBN 437"
+url = "https://arxiv.org/abs/1304.1618"
+notes = "Describes the smaller head and the broader curved or comma-shaped morphology."
+
+[[geometries]]
+id = "lbn437-pa"
+type = "ellipse"
+center_ra_deg = 338.0509
+center_dec_deg = 40.5910
+major_arcmin = 75
+minor_arcmin = 20
+position_angle_deg = 90
+role = "fallback-extent"
+quality = "estimated"
+method = "WCS-aligned image review"
+notes = "Estimated east-west orientation; the VII/9 source has no PA column."
+preferred = true
